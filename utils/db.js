@@ -1,0 +1,21 @@
+import { createPool } from "mysql2";
+import "dotenv/config"
+import colors from "yoctocolors"
+
+const sqlPool = createPool({
+    "host": process.env.DB_HOST,
+    "user": process.env.DB_USER,
+    "password": process.env.DB_PASS,
+    "database": process.env.DB_NAME
+})
+
+sqlPool.getConnection((err) => {
+    if (err) {
+        throw Error("Failed to connect to Database")
+    }
+    else {
+        console.log(colors.green(`Connected to Database!`))
+    }
+})
+
+export default sqlPool
