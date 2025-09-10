@@ -36,6 +36,12 @@ class BaseSqlModel {
         return results[0]
     }
 
+    async findMany(where, value) {
+        const query = `select * from ${this.table} where ${where} = ?`
+        const results = await this.execute(query, [value])
+        return results
+    }
+
     async create(data) {
         const query = `insert into ${this.table} values ?`
         const results = await this.execute(query, [data])

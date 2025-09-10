@@ -1,13 +1,11 @@
-import BaseController from "./base.js"
+import ArticleModel from "../model/articleModel.js"
 
-class ArticleController extends BaseController {
-    constructor(model) {
-        super(model)
-    }
+const articleModel = new ArticleModel()
 
-    async findBySlug(req, res) {
+class ArticleController {
+    async getArticleBySlug(req, res) {
         try {
-            const result = await this.model.findOne("slug", req.params.slug)
+            const result = await articleModel.findOne("slug", req.params.slug)
             if (result) {
                 res.status(200).send(result)
             }
