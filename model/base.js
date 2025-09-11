@@ -1,4 +1,5 @@
 import sqlPool from "../utils/db.js"
+import mysql from "mysql2"
 
 class BaseSqlModel {
     constructor(table) {
@@ -43,21 +44,21 @@ class BaseSqlModel {
     }
 
     async create(data) {
-        const query = `insert into ${this.table} values ?`
-        const results = await this.execute(query, [data])
-        return results.insertId
+        const query = `insert into ${this.table} set ?`
+        const result = await this.execute(query, [data])
+        return result.insertId
     }
 
     async update(id, data) {
         const query = `update ${this.table} set ? where id = ?`
-        const results = await this.execute(query, [data, id])
-        return results.affectedRows
+        const result = await this.execute(query, [data, id])
+        return result.affectedRows
     }
 
     async delete(id) {
         const query = `delete from ${this.table} id = ?`
-        const results = await this.execute(query, id)
-        return results.affectedRows
+        const result = await this.execute(query, id)
+        return result.affectedRows
     }
 }
 

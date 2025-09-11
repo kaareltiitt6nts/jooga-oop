@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .form {
+            margin: auto;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inputdiv {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .formbody {
+            height: 200px;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="/article/create" class="form">
+        <div>
+            <h1>ADD ARTICLE</h1>
+        </div>
+        <div class="inputdiv">
+            <label for="name">Article Name</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="inputdiv">
+            <label for="slug">Article Slug</label>
+            <input type="text" id="slug" name="slug">
+        </div>
+        <div class="inputdiv">
+            <label for="image">Article Image</label>
+            <input type="text" id="image" name="image">
+        </div>
+        <div class="inputdiv">
+            <label for="author_id">Author ID</label>
+            <input type="text" id="author_id" name="author_id">
+        </div>
+        <div class="inputdiv">
+            <label for="body">Article Body</label>
+            <textarea id="body" name="body" class="formbody"></textarea>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</body>
+</html>
