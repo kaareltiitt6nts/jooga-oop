@@ -43,6 +43,37 @@ class ArticleController {
         }
     }
 
+    async editArticle(req, res) {
+        try {
+            const newArticleId = await articleModel.edit(req.params.id, {
+                name: req.body.name,
+                slug: req.body.slug,
+                image: req.body.image,
+                body: req.body.body,
+                published: new Date().toISOString().slice(0, 10),
+                author_id: req.body.author_id
+            })
+
+            if (newArticleId) {
+                res.status(201).send({
+                    message: "Article edited successfully.",
+                    article_id: newArticleId
+                })
+            }
+            else {
+                res.status(500).send({
+                    "message": `Failed to create article.`
+                })
+            }
+        } catch (error) {
+            res.status(500).send({
+                "message": `Internal server error.`
+            })
+
+            throw Error(error)
+        }
+    }
+
     async createNewArticle(req, res) {
         try {
             const newArticleId = await articleModel.create({
@@ -57,7 +88,6 @@ class ArticleController {
             if (newArticleId) {
                 res.status(201).send({
                     message: "Article created successfully.",
-                    status: "success",
                     article_id: newArticleId
                 })
             }

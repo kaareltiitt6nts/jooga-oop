@@ -9,6 +9,11 @@ class ArticleModel extends BaseSqlModel {
         const articleId = await super.create(article)
         return articleId
     }
+
+    async edit(id, data) {
+        const affectedRows = await super.update(id, data)
+        return affectedRows
+    }
 }
 
 export default ArticleModel
