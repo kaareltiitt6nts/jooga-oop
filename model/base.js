@@ -56,7 +56,7 @@ class BaseSqlModel {
     }
 
     async delete(id) {
-        const query = `delete from ${this.table} id = ?`
+        const query = `delete from ${this.table} where id = ?`
         const result = await this.execute(query, id)
         return result.affectedRows
     }
