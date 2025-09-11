@@ -16,6 +16,7 @@ app.get("/author/:id", (req, res) => authorController.getAuthorById(req, res))
 app.get("/article/:slug", (req, res) => articleController.getArticleBySlug(req, res))
 app.post("/article/create", (req, res) => articleController.createNewArticle(req, res))
 app.put("/article/edit/:id", (req, res) => articleController.editArticle(req, res))
+app.delete("/article/delete/:id", (req, res) => articleController.deleteArticle(req, res))
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)

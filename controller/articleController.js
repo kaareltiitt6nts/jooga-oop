@@ -7,7 +7,7 @@ class ArticleController {
         try {
             const results = await articleModel.getAll()
             if (results) {
-                res.status(200).send(result)
+                res.status(200).send(results)
             }
             else {
                 res.status(404).send({
@@ -43,9 +43,33 @@ class ArticleController {
         }
     }
 
+    async deleteArticle(req, res) {
+        try {
+            const affectedRows = await articleModel.delete(req.params.id)
+
+            if (affectedRows) {
+                res.status(201).send({
+                    message: "Article deleted successfully.",
+                    affected_rows: affectedRows
+                })
+            }
+            else {
+                res.status(500).send({
+                    "message": `Failed to delete article.`
+                })
+            }
+        } catch (error) {
+            res.status(500).send({
+                "message": `Internal server error.`
+            })
+
+            throw Error(error)
+        }
+    }
+
     async editArticle(req, res) {
         try {
-            const newArticleId = await articleModel.edit(req.params.id, {
+            const affectedRows = await articleModel.edit(req.params.id, {
                 name: req.body.name,
                 slug: req.body.slug,
                 image: req.body.image,
@@ -54,15 +78,15 @@ class ArticleController {
                 author_id: req.body.author_id
             })
 
-            if (newArticleId) {
+            if (affectedRows) {
                 res.status(201).send({
                     message: "Article edited successfully.",
-                    article_id: newArticleId
+                    affected_rows: affectedRows
                 })
             }
             else {
                 res.status(500).send({
-                    "message": `Failed to create article.`
+                    "message": `Failed to edit article.`
                 })
             }
         } catch (error) {
