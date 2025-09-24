@@ -6,6 +6,19 @@ const userModel = new UserModel()
 class UserController {
     async register(req, res) {
         try {
+            if (req.body.password.length < 10) {
+                return res.status(400).json({
+                    message: "Password is too short"
+                })
+            }
+
+            const userExists = await userModel.findOne("username", req.body.username)
+            if (userExists) {
+                return res.status(400).json({
+                    message: "User already exists"
+                })
+            }
+
             const bcryptPass = await bcrypt.hash(req.body.password, 10)
 
             const registeredId = await userModel.create({
@@ -22,20 +35,20 @@ class UserController {
                     id: userData.id
                 }
 
-                res.json({
+                return res.status(201).json({
                     message: "Register success",
                     user_session: req.session.user
                 })
             }
             else {
-                res.json({
+                return res.status(500).json({
                     message: "Failed to register user"
                 })
             }
         } catch (error) {
             console.log(error)
 
-            res.json({
+            return res.status(500).json({
                 message: "Failed to register user"
             })
         }
