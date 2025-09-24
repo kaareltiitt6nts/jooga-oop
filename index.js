@@ -1,6 +1,9 @@
 import express from "express"
 import ArticleController from "./controller/articleController.js"
 import AuthorController from "./controller/authorController.js"
+import session from "express-session"
+import "dotenv/config"
+import TimeUtils from "./utils/time.js"
 
 const PORT = process.env.APP_PORT
 const app = new express()
@@ -8,6 +11,14 @@ const app = new express()
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(express.static("public"))
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false,
+    cookie: {
+        maxAge: TimeUtils.getDays(7)
+    }
+}))
 
 const articleController = new ArticleController()
 const authorController = new AuthorController()
