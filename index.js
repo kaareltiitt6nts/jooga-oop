@@ -64,6 +64,10 @@ app.get("/article/:slug", (req, res) => {
     })
 })
 
+app.get("/create", (req, res) => {
+    res.render("create")
+})
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
