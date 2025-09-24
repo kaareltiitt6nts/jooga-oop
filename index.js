@@ -2,6 +2,8 @@ import express from "express"
 import ArticleController from "./controller/articleController.js"
 import AuthorController from "./controller/authorController.js"
 import session from "express-session"
+import hbs from "express-handlebars"
+import path from "path"
 import "dotenv/config"
 import TimeUtils from "./utils/time.js"
 import userRouter from "./routes/user.js"
@@ -21,6 +23,12 @@ app.use(session({
     cookie: {
         maxAge: TimeUtils.getDays(7)
     }
+}))
+
+app.engine("hbs", hbs.engine({
+    extname: "hbs",
+    defaultLayout: "main",
+    layoutsDir: path.join(import.meta.dirname, "views/layouts")
 }))
 
 app.use("/", userRouter)
