@@ -49,7 +49,47 @@ class UserController {
             console.log(error)
 
             return res.status(500).json({
-                message: "Failed to register user"
+                message: "Internal server error"
+            })
+        }
+    }
+
+    async login(req, res) {
+        try {
+            const username = req.body.username
+            const password = req.body.password
+
+            const userData = await userModel.findOne("username", username)
+            if (!userData) {
+                return res.status(404).json({
+                    message: "User not found"
+                })
+            }
+
+            const passwordHash = userData.password
+            const bcryptComparison = await bcrypt.compare(password, passwordHash)
+
+            if (bcryptComparison) {
+                req.session.user = {
+                    username: userData.username,
+                    id: userData.id
+                }
+
+                return res.status(200).json({
+                    message: "Login success",
+                    user_session: req.session.user
+                })
+            }
+            else {
+                return res.status(401).json({
+                    message: "Password is wrong"
+                })
+            }
+        } catch (error) {
+            console.log(error)
+
+            return res.status(500).json({
+                message: "Internal server error"
             })
         }
     }
