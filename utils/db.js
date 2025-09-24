@@ -11,7 +11,7 @@ const sqlPool = createPool({
 
 sqlPool.getConnection((err) => {
     if (err) {
-        throw Error("Failed to connect to Database")
+        console.log(err)
     }
     else {
         console.log(colors.green(`Connected to Database!`))
