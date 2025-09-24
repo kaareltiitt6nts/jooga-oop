@@ -42,15 +42,24 @@ app.use("/", authorRouter)
 
 app.get("/", (req, res) => {
     const query = "select * from article"
-    let articles = []
 
     sqlPool.query(query, (err, result) => {
-        if (err) {
-            throw err
-        }
+        if (err) throw err
 
         res.render("index", {
             articles: result
+        })
+    })
+})
+
+app.get("/article/:slug", (req, res) => {
+    const query = `select * from article where slug = "${req.params.slug}"`
+
+    sqlPool.query(query, (err, result) => {
+        if (err) throw err
+
+        res.render("article", {
+            article: result
         })
     })
 })
